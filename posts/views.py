@@ -1,6 +1,6 @@
 from django.shortcuts import HttpResponse, redirect, render
 from datetime import datetime
-from posts.models import Store
+from posts.models import Product
 
 
 def main_view(request):
@@ -10,7 +10,7 @@ def main_view(request):
 
 def products_view(request):
     if request.method == 'GET':
-        posts = Store.objects.all()
+        posts = Product.objects.all()
 
         context = {
             'posts': posts

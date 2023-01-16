@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 
-class Store(models.Model):
+class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
     price = models.IntegerField()
     title = models.CharField(max_length=255)

@@ -19,7 +19,7 @@ from posts.views import greeting, date_, farewell, main_view, products_view
 
 urlpatterns = [
     path('', main_view),
-    path('store/', products_view),
+    path('Product/', products_view),
     path('admin/', admin.site.urls),
     path('hello/', greeting),
     path('data/', date_),
