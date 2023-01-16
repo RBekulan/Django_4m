@@ -1,5 +1,22 @@
-from django.shortcuts import HttpResponse, redirect
+from django.shortcuts import HttpResponse, redirect, render
 from datetime import datetime
+from posts.models import Store
+
+
+def main_view(request):
+    if request.method == 'GET':
+        return render(request, 'layouts/index.html')
+
+
+def products_view(request):
+    if request.method == 'GET':
+        posts = Store.objects.all()
+
+        context = {
+            'posts': posts
+        }
+
+        return render(request, 'products/products.html', context=context)
 
 
 def greeting(request):
@@ -15,11 +32,3 @@ def date_(request):
 def farewell(request):
     if request.method == 'GET':
         return HttpResponse('Goodby user!')
-
-# Сделать 3 view (function based views)
-# 1 - hello/ будет возвращать ответ HttResponse с текстом "Hello! Its my project"
-# 2 - now_date/ будет возвращать ответ HttpResponse c нынешней датой
-# 3 - goodby/ будет возвращать ответ HttpResponse с текстом “Goodby user!”
-#
-# отправить как GitHub репозиторий, имя репозитория будет таким “{first_name}_{last_name}_{group}”
-#
