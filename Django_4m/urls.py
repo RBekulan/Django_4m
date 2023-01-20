@@ -24,3 +24,10 @@ urlpatterns = [
     path('products/<int:id>/', product_detail_view)
 
 ]
+
+
+
+
+
+
+
