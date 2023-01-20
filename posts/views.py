@@ -20,10 +20,10 @@ def product_detail_view(request, id):
 
 def products_view(request):
     if request.method == 'GET':
-        posts = Product.objects.all()
+        products = Product.objects.all()
 
         context = {
-            'posts': posts
+            'products': products
         }
 
         return render(request, 'products/products.html', context=context)
