@@ -1,0 +1,41 @@
+{% extends 'layouts/index.html' %}
+
+{% block content %}
+    <div class="post">
+        <style type="text/css">
+        .post {
+            width: 80%;
+            margin-left: 10%;
+        }
+        .date {
+            display: flex;
+            justify-content: space-between;
+        }
+        .comments{
+            margin-top: 20px;
+        }
+        .comment{
+            background: #242b2e;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+        <h1>{{ post.title }}</h1>
+        <h2>{{ post.description }}</h2>
+        <h2>Price: {{ post.price }}</h2>
+        <div class="date">
+            <h4>{{ post.creadted_date }}</h4>
+            <h4>{{ post.modified_date }}</h4>
+        </div>
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                <h6>Review: {{ comment.review }}</h6>
+                <p>Date: {{ comment.date }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

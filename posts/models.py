@@ -10,3 +10,10 @@ class Product(models.Model):
     description = models.TextField()
     creadted_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now=True)
+
+
+
+class Review_comm(models.Model):
+    review = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
