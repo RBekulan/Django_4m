@@ -24,12 +24,14 @@
                 margin-bottom: 20px;
             }
         </style>
-        <h1>{{ product.title }}</h1>
-        <h2>{{ product.description }}</h2>
-        <h2>Price: {{ product.price }}</h2>
+        <img class="product_image" src="/media/{{ products.image }}/" alt="">
+        <h1>{{ products.title }}</h1>
+        <h2>{{ products.price }}</h2>
+        <h2>Price: {{ products.price }}</h2>
+        <h2>{{ products.description }}</h2>
         <div class="date">
-            <h4>{{ product.creadted_date }}</h4>
-            <h4>{{ product.modified_date }}</h4>
+            <h4>{{ products.creadted_date }}</h4>
+            <h4>{{ products.modified_date }}</h4>
         </div>
         <div class="comments">
             {% for comment in comments %}

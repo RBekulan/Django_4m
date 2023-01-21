@@ -1,5 +1,12 @@
 {% extends 'layouts/index.html' %}
 
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'products.css'%}">
+{% endblock %}
+
+
 {% block content %}
     <style type="text/css">
         .products {
@@ -13,6 +20,12 @@
         {% for product in products %}
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
+                    {% if product.image%}
+                        <img class="product_image" src="/media/{{ product.image }}/" alt="">
+                    {% else %}
+                        <img class="product_image" src="https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg" alt="">
+                    {% endif %}
+
                     <h5 class="card-title">{{ product.title }}</h5>
                     <h6 class="card-title">{{ product.description }}</h6>
                     <a href="/products/{{ product.id }}" class="card-link">More</a>
@@ -21,5 +34,4 @@
         {% endfor %}
     </div>
 {% endblock %}
-
 
