@@ -1,7 +1,15 @@
 from django.shortcuts import HttpResponse, redirect, render
 from datetime import datetime
-from posts.models import Product, Review_comm
+from products.models import Product, Review_comm, Category
 
+
+def category_view(request):
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        context = {
+            'categories': categories
+        }
+        return render(request,'categories/index.html', context=context)
 
 def main_view(request):
     if request.method == 'GET':
@@ -9,23 +17,29 @@ def main_view(request):
 
 def product_detail_view(request, id):
     if request.method == 'GET':
-        post = Product.objects.get(id=id)
-        comments = Review_comm.objects.filter(product=post)
+
+        product = Product.objects.get(id=id)
+        comments = Review_comm.objects.filter(product=product)
         context = {
-            'post': post,
-            'comments': comments
+            'products': product,
+            'comments': comments,
+
         }
         return render(request, 'products/detail.html', context=context)
 
 
+
+
 def products_view(request):
     if request.method == 'GET':
-        products = Product.objects.all()
-
+        category_id = request.GET.get('category_id')
+        if category_id:
+            products = Product.objects.filter(category=Category.objects.get(id=category_id))
+        else:
+            products = Product.objects.all()
         context = {
             'products': products
         }
-
         return render(request, 'products/products.html', context=context)
 
 
