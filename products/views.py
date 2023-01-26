@@ -1,6 +1,7 @@
 from django.shortcuts import HttpResponse, redirect, render
 from datetime import datetime
 from products.models import Product, Review_comm, Category
+from products.forms import ProductCreateForm, ReviewCreateForm
 
 
 def category_view(request):
@@ -9,26 +10,34 @@ def category_view(request):
         context = {
             'categories': categories
         }
-        return render(request,'categories/index.html', context=context)
+        return render(request, 'categories/index.html', context=context)
+
 
 def main_view(request):
     if request.method == 'GET':
         return render(request, 'layouts/index.html')
 
-def product_detail_view(request, id):
+
+def detail_view(request, **kwargs):
     if request.method == 'GET':
+        product = Product.objects.get(id=kwargs['id'])
+        reviews = Review_comm.objects.filter(product=product)
 
-        product = Product.objects.get(id=id)
-        comments = Review_comm.objects.filter(product=product)
-        context = {
+        data = {
             'products': product,
-            'comments': comments,
-
+            'comments': reviews,
+            'form': ReviewCreateForm,
         }
-        return render(request, 'products/detail.html', context=context)
 
-
-
+        return render(request, 'products/detail.html', context=data)
+    if request.method == 'POST':
+        form = ReviewCreateForm(data=request.POST)
+        if form.is_valid():
+            Review_comm.objects.create(
+                review=form.cleaned_data.get('review'),
+                product_id=kwargs['id']
+            )
+            return redirect(f"/products/{kwargs['id']}/")
 
 def products_view(request):
     if request.method == 'GET':
@@ -56,3 +65,28 @@ def date_(request):
 def farewell(request):
     if request.method == 'GET':
         return HttpResponse('Goodby user!')
+
+
+def create_products(request):
+    if request.method == 'GET':
+        context = {
+            'form': ProductCreateForm
+        }
+        return render(request, 'products/create.html', context=context)
+
+    if request.method == 'POST':
+        form = ProductCreateForm(data=request.POST)
+
+        if form.is_valid():
+            Product.objects.create(
+                title=form.cleaned_data.get('title'),
+                description=form.cleaned_data.get('description'),
+                price=form.cleaned_data['price'] if form.cleaned_data['price'] is not None else 0
+
+            )
+            return redirect('/products')
+
+        return render(request, 'products/create.html', context={
+            'form': form
+        })
+
