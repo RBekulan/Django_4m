@@ -9,3 +9,8 @@ class ProductCreateForm(forms.Form):
 
 class ReviewCreateForm(forms.Form):
     review = forms.CharField()
+
+
+
+
+
