@@ -19,6 +19,8 @@ from products.views import main_view, products_view, detail_view, category_view,
 from django.conf.urls.static import static
 # from Blog.settings import MEDIA_ROOT,MEDIA_URL
 from Django_4m.settings import MEDIA_URL, MEDIA_ROOT
+from users.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +28,10 @@ urlpatterns = [
     path('products/', products_view),
     path('products/<int:id>/', detail_view),
     path('categories/', category_view),
-    path('products/create/', create_products)
+    path('products/create/', create_products),
+    path('users/login/', login_view),
+    path('users/register/', register_view),
+    path('users/logout/', login_view),
 
 ]
 
