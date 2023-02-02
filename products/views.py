@@ -3,6 +3,8 @@ from datetime import datetime
 from products.models import Product, Review_comm, Category
 from products.forms import ProductCreateForm, ReviewCreateForm
 
+PAGINATION_LIMIT = 3
+
 
 def category_view(request):
     if request.method == 'GET':
@@ -39,16 +41,37 @@ def detail_view(request, **kwargs):
             )
             return redirect(f"/products/{kwargs['id']}/")
 
+
 def products_view(request):
     if request.method == 'GET':
-        category_id = request.GET.get('category_id')
+        products = Product.objects.all()
+        category_id = request.GET.get("category_id", None)
+        search = request.GET.get('search')
+        page = int(request.GET.get('page', 1))
+
         if category_id:
-            products = Product.objects.filter(category=Category.objects.get(id=category_id))
+            products = products.filter(category__in=[category_id])
+
+        if search:
+            products = products.filter(title__icontains=search)
+
+
+        max_page = products.__len__() / PAGINATION_LIMIT
+        if round(max_page) < max_page:
+            max_page = round(max_page) + 1
         else:
-            products = Product.objects.all()
+            max_page = round(max_page)
+
+        """ slice posts """
+        products = products[PAGINATION_LIMIT * (page - 1):PAGINATION_LIMIT * page]
+        print(products)
+
         context = {
-            'products': products
+            'products': products,
+            'user': request.user,
+            'max_page': range(1, max_page + 1),
         }
+
         return render(request, 'products/products.html', context=context)
 
 
@@ -89,9 +112,3 @@ def create_products(request):
         return render(request, 'products/create.html', context={
             'form': form
         })
-
-
-
-
-
-
